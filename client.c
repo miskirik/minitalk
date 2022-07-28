@@ -6,12 +6,12 @@
 /*   By: miskirik <miskirik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 22:36:59 by miskirik          #+#    #+#             */
-/*   Updated: 2022/07/01 04:49:21 by miskirik         ###   ########.fr       */
+/*   Updated: 2022/07/28 05:36:12 by miskirik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
-# include "ft_printf.h"
+# include "./ft_printf/ft_printf.h"
 #include <unistd.h>
 
 void ft_ok(int signal)
@@ -31,25 +31,31 @@ int	ft_atoi(char *str)
 
 void ft_procces(int pid,char *str)
 {
+	int n;
 	int i;
-	char c;
-
+	int	byt;
+	unsigned char ch;
 	i=0;
-	c=0;
-	while (str[c])
+	while (str[i])
 	{
-		i=7;
-		while (i>=0)
+
+	ch = str[i];
+	byt = 8;
+	n = 128;
+	while (byt--)
+	{
+		if (ch / n)
 		{
-			if(str[c] >> i & 1)
-				kill(pid,SIGUSR1);
-			else
-				kill(pid,SIGUSR2);
-			i--;
-			usleep(50);
+			ch -= n;
+			kill(pid, SIGUSR1);
 		}
-		c++;
+		else
+			kill(pid, SIGUSR2);
+		usleep(150);
+		n /= 2;
 	}
+	i++;
+}
 }
 int main(int argc,char **argv)
 {
@@ -62,6 +68,6 @@ int main(int argc,char **argv)
 		ft_printf("You failed.\n");
 		return(0);
 	}
-	signal (SIGUSR1, ft_ok);
+	signal (SIGUSR1, &ft_ok);
 	ft_procces(pid, argv[2]);
 }

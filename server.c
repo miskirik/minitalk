@@ -6,12 +6,12 @@
 /*   By: miskirik <miskirik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 22:36:56 by miskirik          #+#    #+#             */
-/*   Updated: 2022/07/01 04:48:40 by miskirik         ###   ########.fr       */
+/*   Updated: 2022/07/28 05:26:50 by miskirik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
-#include "ft_printf.h"
+# include "./ft_printf/ft_printf.h"
 #include <unistd.h>
 
 void	ft_server(int signal, siginfo_t *info, void *context)
