@@ -1,6 +1,5 @@
 NAMESERVER = server
 NAMECLIENT = client
-NAME = none.c
 LIB = ./ft_printf/libftprintf.a
 SRCSERVER = server.c
 SRCCLIENT = client.c
@@ -36,4 +35,4 @@ ffclean: fclean
 
 re:fclean all
 
-.PHONY : re fclean clean all ffclean norm
+.PHONY : re fclean clean all ffclean

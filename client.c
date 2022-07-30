@@ -6,19 +6,18 @@
 /*   By: miskirik <miskirik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 22:36:59 by miskirik          #+#    #+#             */
-/*   Updated: 2022/07/30 18:44:54 by miskirik         ###   ########.fr       */
+/*   Updated: 2022/07/30 19:32:33 by miskirik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-# include "./ft_printf/ft_printf.h"
-#include <unistd.h>
+#include "minitalk.h"
 
-void ft_ok(int signal)
+void	ft_ok(int signal)
 {
 	if (signal == SIGUSR1)
 		ft_printf("Process Successful");
 }
+
 int	ft_atoi(char *str)
 {
 	int	i;
@@ -29,13 +28,13 @@ int	ft_atoi(char *str)
 	return (i);
 }
 
-void ft_procces(int pid,int c)
+void	ft_procces(int pid, int c)
 {
-	int n;
-	int	byt;
-	unsigned char ch;
+	int				n;
+	int				byt;
+	unsigned char	ch;
 
-	ch=c;
+	ch = c;
 	byt = 8;
 	n = 128;
 	while (byt--)
@@ -52,21 +51,21 @@ void ft_procces(int pid,int c)
 	}
 }
 
-int main(int argc,char **argv)
+int	main(int argc, char **argv)
 {
-	int pid;
-	int i;
-	int byt;
-	char *msg;
+	int		pid;
+	int		i;
+	int		byt;
+	char	*msg;
 
-	pid=ft_atoi(argv[1]);
-	i=0;
-	if(argc != 3)
+	pid = ft_atoi(argv[1]);
+	i = 0;
+	if (argc != 3)
 	{
 		ft_printf("You failed.\n");
-		return(0);
+		return (0);
 	}
-	msg=argv[2];
+	msg = argv[2];
 	signal(SIGUSR1, ft_ok);
 	while (msg[i])
 	{
