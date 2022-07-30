@@ -6,7 +6,7 @@
 /*   By: miskirik <miskirik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 22:36:56 by miskirik          #+#    #+#             */
-/*   Updated: 2022/07/28 05:26:50 by miskirik         ###   ########.fr       */
+/*   Updated: 2022/07/30 18:46:26 by miskirik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,41 @@
 # include "./ft_printf/ft_printf.h"
 #include <unistd.h>
 
-void	ft_server(int signal, siginfo_t *info, void *context)
+void	ft_catch(int x,siginfo_t *info,void *unused)
 {
-	static int	i = 0;
-	static char	c = 0;
+	int sig;
+	static int	bit=7;
+	static int	set=0;
 
-	(void)context;
-	if(signal == SIGUSR1)
-		c = c | 1;
-	if (++i == 8)
+	(void)unused;
+	sig=0;
+	if (x == SIGUSR1)
+		sig=1;
+	else if (x == SIGUSR2)
+		sig=0;
+	set += sig << bit;
+	if (bit == 0)
 	{
-		i=0;
-		if (!c)
-		{
+		if(set==0)
 			kill(info->si_pid,SIGUSR1);
-			ft_printf("\n");
-		}
-		ft_printf("%c",c);
-		c=0;
+		ft_printf("%c",set);
+		bit = 7;
+		set = 0;
 	}
 	else
-		c <<=1;
+		bit--;
 }
 
 int main(void)
 {
-	struct sigaction	server;
-	int pid;
+	struct sigaction client;
 
-	pid=getpid();
-	ft_printf("Server pid=%d\n",pid);
-	server.sa_flags= SA_SIGINFO;
-	server.sa_sigaction= ft_server;
-	if (sigaction(SIGUSR1,&server,0)== -1)
-		ft_printf("Signal Error\n");
-	if (sigaction(SIGUSR2,&server,0)== -1)
-		ft_printf("Signal Error\n");
+	client.sa_flags=SA_SIGINFO;
+	client.sa_sigaction=ft_catch;
+
+	ft_printf("Server pid=%d\n",getpid());
+	sigaction(SIGUSR1,&client,0);
+	sigaction(SIGUSR2,&client,0);
 	while (1)
 		pause();
 	return(0);
