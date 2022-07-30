@@ -51,6 +51,5 @@ int main(void)
 	sigaction(SIGUSR2,&client,0);
 	while (1)
 		pause();
-	return(0);
 
 }
