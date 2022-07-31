@@ -10,8 +10,6 @@ OBJCLIENT = $(SRCCLIENT:.c=.o)
 
 all: $(LIB) $(NAMESERVER) $(NAMECLIENT)
 
-$(NAME) : all
-
 $(LIB):
 	make -C ./ft_printf
 
